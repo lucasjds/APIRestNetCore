@@ -25,6 +25,21 @@ namespace Alura.WebAPI.WebApp.Api
       return Ok(lista);
     }
 
+    [HttpGet("{id}/capa")]
+    public IActionResult ImagemCapa(int id)
+    {
+      byte[] img = _repo.All
+          .Where(l => l.Id == id)
+          .Select(l => l.ImagemCapa)
+          .FirstOrDefault();
+      if (img != null)
+      {
+        return File(img, "image/png");
+      }
+      return File("~/images/capas/capa-vazia.png", "image/png");
+    }
+
+
     [HttpGet("{id}")]
     public IActionResult Recuperar(int id)
     {
@@ -50,7 +65,7 @@ namespace Alura.WebAPI.WebApp.Api
     }
 
     [HttpPut]
-   
+
     public IActionResult Alterar([FromBody] LivroUpload model)
     {
       if (ModelState.IsValid)
